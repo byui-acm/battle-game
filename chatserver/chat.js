@@ -16,8 +16,8 @@
 function send()
 {
    var name = "name="+document.getElementById("name").value;
-   var time = "time="+Date();
-   var mess = "mess="+document.getElementById("mess").value;
+   var time = "&time="+Date();
+   var mess = "&mess="+document.getElementById("mess").value;
 
    alert(name + '\n' + time + "\n" + mess);
 
