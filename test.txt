@@ -1,5 +1,6 @@
 This is a test to see if I can add for version control.
 Add your name to get some practice
+DO IT NOW!!!
 
 If I'm right, in "git bash" you could use the commands 'git push'
 to push into the repository, and 'git pull' to take stuff out?
