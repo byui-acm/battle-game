@@ -5,4 +5,5 @@ DO IT NOW!!!
 If I'm right, in "git bash" you could use the commands 'git push'
 to push into the repository, and 'git pull' to take stuff out?
 
-Edward Ricks 
+Edward Ricks
+Sam Buchmiller
