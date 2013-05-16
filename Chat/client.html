@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Client</title>
+        <meta charset="UTF-8" />
+        <script>
+            "use strict";
+            // Initialize everything when the window finishes loading
+            window.addEventListener("load", function(event)
+                                    {
+                                    var status = document.getElementById("status");
+                                    var url = document.getElementById("url");
+                                    var open = document.getElementById("open");
+                                    var close = document.getElementById("close");
+                                    var send = document.getElementById("send");
+                                    var text = document.getElementById("text");
+                                    var message = document.getElementById("message");
+                                    var chatName = document.getElementById("chatName");
+                                    var socket;
+                                    
+                                    status.textContent = "Not Connected";
+                                    url.value = "192.168.1.3"; //"ws://echo.websocket.org"; //"ws://localhost:8080";
+                                    close.disabled = true;
+                                    send.disabled = true;
+                                    
+                                    // Create a new connection when the Connect button is clicked
+                                    open.addEventListener("click", function(event)
+                                                          {
+                                                          open.disabled = true;
+                                                          var theURL = "ws://" + url.value + ":8080:";
+                                                          socket = new WebSocket(theURL, "echo-protocol");
+                                                          
+                                                          socket.addEventListener("open", function(event)
+                                                                                  {
+                                                                                  close.disabled = false;
+                                                                                  send.disabled = false;
+                                                                                  status.textContent = "Connected";
+                                                                                  });
+                                                          
+                                                          // Display messages received from the server
+                                                          socket.addEventListener("message", function(event)
+                                                                                  {
+                                                                                  message.value += "\n" + event.data;
+                                                                                  //message.textContent = "Server Says: " + event.data;
+                                                                                  });
+                                                          
+                                                          // Display any errors that occur
+                                                          socket.addEventListener("error", function(event)
+                                                                                  {
+                                                                                  message.value += "\nError: " + event;
+                                                                                  //message.textContent = "Error: " + event;
+                                                                                  });
+                                                          
+                                                          socket.addEventListener("close", function(event)
+                                                                                  {
+                                                                                  open.disabled = false;
+                                                                                  status.textContent = "Not Connected";
+                                                                                  });
+                                                          });
+                                    
+                                    // Close the connection when the Disconnect button is clicked
+                                    close.addEventListener("click", function(event)
+                                                           {
+                                                           close.disabled = true;
+                                                           send.disabled = true;
+                                                           message.textContent = "";
+                                                           socket.close();
+                                                           });
+                                    
+                                    // Send text to the server when the Send button is clicked
+                                    send.addEventListener("click", function(event)
+                                                          {
+                                                          if (chatName.value == "")
+                                                          {
+                                                          
+                                                          }
+                                                          
+                                                          var textToSend = chatName.value + ": " + text.value;
+                                                          text.value = "";
+                                                          socket.send(textToSend);
+                                                          });
+                                    });
+            </script>
+    </head>
+    <body>
+        Status: <span id="status"></span><br/>
+        IP: <input id="url"/><br/>
+        <input id="open" type="button" value="Connect" />&nbsp;
+        <input id="close" type="button" value="Disconnect" /><br/>
+        Chat name: <input id="chatName"/>&nbsp;<p id="nameError"></p>
+        <textarea id="message" rows="20" cols="100" readonly></textarea><br/>
+        Message: <input id="text"/><br/>
+        <input id="send" type="button" value="Send"/>
+    </body>
+</html>
+
